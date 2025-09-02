@@ -62,3 +62,8 @@ main h2 {
 .background-overlay {
   background-color: #093f85 !important;
 }
+
+/* Hide the title level request UI -- we only use item level request buttons */
+#nde\.request\.title {
+  display: none;
+}
