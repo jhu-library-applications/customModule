@@ -18,10 +18,10 @@ jobs:
           npm install -g @angular/cli
           npm install
           npm run build
-          mv ./**/dist/01JHU_INST-nde ../
+          mv /home/runner/work/customModule/customModule/dist/01JHU_INST-nde /home/runner/work/customModule/customModule/01JHU_INST-nde
           
       - name: Archive production artifacts
         uses: actions/upload-artifact@v4
         with:
           name: 01JHU_INST-nde
-          path: ./**/01JHU_INST-nde/
+          path: /home/runner/work/customModule/customModule/01JHU_INST-nde
