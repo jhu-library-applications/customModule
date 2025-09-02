@@ -1,0 +1,64 @@
+.jh-header-container {
+  background-color: #093f85;
+}
+
+.jh-header-container a {
+  color: #ffff;
+  text-decoration: none;
+}
+
+.jh-image {
+  display: inline;
+  float: left;
+  margin: 1em;
+  margin-top: 1.25em;
+}
+
+/* Desktop header links */
+.jh-header-menu ul {
+  display: flex;
+  justify-content: space-around;
+  padding: 30px;
+}
+
+/* Tablet header links */
+@media (max-width: 768px) {
+  .jh-header-menu ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+  }
+}
+
+/* Mobile header links */
+@media (max-width: 480px) {
+  .jh-header-menu ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+  }
+}
+
+nde-logo {
+  margin: 1em;
+  padding-right: 1em;
+}
+
+nde-user-area {
+  margin: 1em;
+}
+
+main h2 {
+  display: none;
+}
+
+.top-bar-background-image {
+  background-image: none !important;
+  background-color: #093f85;
+}
+
+.background-overlay {
+  background-color: #093f85 !important;
+}
