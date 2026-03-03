@@ -177,6 +177,89 @@ Or as Observable:
 ```angular2html
 isLoggedIn$ = this.store.select(selectIsLoggedIn);
 ```
+### Automatic assets public path (`assets/...`)
+
+If your custom module/add-on is hosted under a dynamic base URL, plain template URLs like:
+
+```html
+<img src="assets/images/logo.png" />
+```
+may break, because the browser resolves them relative to the host page.
+
+To fix this, we provide:
+
+src/app/services/assets-public-path.directive.ts
+
+This directive automatically rewrites any src / href that starts with assets/ (or /assets/) to:
+
+```js
+__webpack_public_path__ + 'assets/...'
+```
+Import the directive in a component (Standalone)
+Add the directive to the component imports:
+
+```js
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { AssetsPublicPathDirective } from '../services/assets-public-path.directive';
+
+@Component({
+  selector: 'custom-example',
+  standalone: true,
+  templateUrl: './example.component.html',
+  styleUrls: ['./example.component.scss'],
+  imports: [CommonModule, AssetsPublicPathDirective],
+})
+export class ExampleComponent {}
+```
+If the component is not standalone (NgModule-based), import and export the directive from a shared module, and include that module where your components are declared.
+
+Use it in HTML
+After the directive is imported, you can use plain assets/... paths in templates:
+
+
+```html
+<!-- Images -->
+<img src="assets/images/logo.png" alt="Logo">
+
+<!-- Icons / SVG -->
+<img src="assets/homepage/clock.svg" alt="Clock">
+
+<!-- Links to files -->
+<a href="assets/files/help.pdf">Help</a>
+```
+Supported attributes/elements (common cases):
+
+img[src]
+
+source[src]
+
+script[src]
+
+link[href]
+
+a[href]
+
+### Accessing app router
+
+- You can gain access to the app router service by injecting the SHELL_ROUTER  injection token to your component:
+
+```angular2html
+import {SHELL_ROUTER} from "../../injection-tokens"; //the import path may vary on your project
+private router = inject(SHELL_ROUTER);
+```
+
+- Listening for router navigation events. For example:
+
+```angular2html
+this.routerSubscription = this.router.events.subscribe((event) => {
+    if (event instanceof NavigationEnd) {
+        console.log('Tracking PageView: ', event.urlAfterRedirects);
+    }
+});
+```
+
+
 
 ### Accessing app router
 
