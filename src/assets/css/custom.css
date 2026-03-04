@@ -104,3 +104,8 @@ main h2 {
 #nde\.request\.title {
   display: none;
 }
+
+/* Hide the option for journal in the citation linker */
+nde-fetch-item #mat-radio-2 {
+  display: none;
+}
