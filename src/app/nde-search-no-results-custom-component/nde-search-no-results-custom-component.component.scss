@@ -1,0 +1,14 @@
+.search-no-results {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+.identifier-link,
+.external-search-options {
+  width: 400px;
+  margin: 5px;
+  text-align: center;
+}

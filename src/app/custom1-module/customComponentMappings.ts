@@ -4,5 +4,5 @@ import { NdeSearchNoResultsCustomComponentComponent } from "../nde-search-no-res
 // Define the map
 export const selectorComponentMap = new Map<string, any>([
   ["nde-search-bar-container-top", NdeSearchBarContainerCustomComponent],
-  ["nde-search-no-results-bottom", NdeSearchNoResultsCustomComponentComponent]
+  ["nde-search-no-results-top", NdeSearchNoResultsCustomComponentComponent]
 ]);
