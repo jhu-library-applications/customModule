@@ -87,7 +87,7 @@ nde-user-area {
   margin: 1em;
 }
 
-main h2 {
+.custom-search-bar-container h2 {
   display: none;
 }
 
