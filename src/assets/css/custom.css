@@ -1,5 +1,42 @@
-.jh-header-container {
-  background-color: #093f85;
+:root {
+  --sys-primary: #002d72;
+}
+
+/* Fonts */
+
+@font-face {
+    font-family: 'Work Sans';
+    src: url('WorkSans-Regular.woff2') format('woff2'),
+        url('WorkSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Work Sans';
+    src: url('WorkSans-Bold.woff2') format('woff2'),
+        url('WorkSans-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+* {
+  font-family: 'Work Sans', sans-serif !important;
+}
+
+.material-icons {
+    font-family: 'Material Icons' !important;
+}
+
+jh-header-container {
+  background-color: #002d72;
+}
+
+.custom-search-bar-container {
+  background-color: #002d72;
 }
 
 .jh-header-container a {
@@ -56,11 +93,11 @@ main h2 {
 
 .top-bar-background-image {
   background-image: none !important;
-  background-color: #093f85;
+  background-color: #002d72;
 }
 
 .background-overlay {
-  background-color: #093f85 !important;
+  background-color: #002d72 !important;
 }
 
 /* Hide the title level request UI -- we only use item level request buttons */
