@@ -11,10 +11,10 @@ export const selectSearchState = createFeatureSelector<SearchState>('Search');
   selector: 'custom-nde-search-no-results-custom-component',
   standalone: true,
   imports: [AsyncPipe, NgIf],
-  templateUrl: './nde-search-no-results-custom-component.component.html',
-  styleUrl: './nde-search-no-results-custom-component.component.scss'
+  templateUrl: './nde-search-no-results-custom.component.html',
+  styleUrl: './nde-search-no-results-custom.component.scss'
 })
-export class NdeSearchNoResultsCustomComponentComponent implements OnInit {
+export class NdeSearchNoResultsCustomComponent implements OnInit {
   public store = inject(Store);
 
   searchState$!: Observable<SearchState>;
