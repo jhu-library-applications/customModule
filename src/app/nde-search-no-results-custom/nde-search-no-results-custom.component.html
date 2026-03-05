@@ -1,29 +1,75 @@
 <div class="search-no-results">
 
-  <div *ngIf="doiLink$ | async as doiLink" class="identifier-link">
-    <p>We detected a DOI in your search, but there were no results found.</p>
-    <a [href]="doiLink" target="_blank" rel="noopener noreferrer">
-      Check for access using the Citation Linker
-    </a>
+  <!-- DOI Detected Card -->
+  <div *ngIf="doiLink$ | async as doiLink" class="hint-container">
+    <mat-card class="hint-card warning-card">
+      <mat-card-content>
+        <div class="hint-content">
+          <mat-icon>warning</mat-icon>
+          <div class="hint-text">
+            <p>We detected a DOI in your search, but there were no results found.</p>
+            <a [href]="doiLink" target="_blank" rel="noopener noreferrer">
+              <mat-icon class="link-icon">open_in_new</mat-icon>
+              Check for access using the Citation Linker
+            </a>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
-  <div *ngIf="isbnLink$ | async as isbnLink" class="identifier-link">
-    <p>We detected an ISBN in your search, but there were no results found.</p>
-    <a [href]="isbnLink" target="_blank" rel="noopener noreferrer">Check for access using the Citation Linker</a>
+  <!-- ISBN Detected Card -->
+  <div *ngIf="isbnLink$ | async as isbnLink" class="hint-container">
+    <mat-card class="hint-card warning-card">
+      <mat-card-content>
+        <div class="hint-content">
+          <mat-icon>warning</mat-icon>
+          <div class="hint-text">
+            <p>We detected an ISBN in your search, but there were no results found.</p>
+            <a [href]="isbnLink" target="_blank" rel="noopener noreferrer">
+              <mat-icon class="link-icon">open_in_new</mat-icon>
+              Check for access using the Citation Linker
+            </a>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
-  <div class="external-search-options">
-    <p>Try searching other resources:</p>
+  <!-- External Search Options Card -->
+  <div class="hint-container">
+    <mat-card class="hint-card info-card">
+      <mat-card-content>
+        <div class="hint-content">
+          <mat-icon>search</mat-icon>
+          <div class="hint-text">
+            <p class="section-title">Try searching other resources:</p>
 
-    <ul class="search-links">
-      <li>
-        <a [href]="borrowDirectLink$ | async" target="_blank" rel="noopener noreferrer">Search BorrowDirect</a>
-        <p class="link-description">Borrow from partner libraries</p>
-      </li>
-      <li>
-        <a [href]="worldCatLink$ | async" target="_blank" rel="noopener noreferrer">Search WorldCat</a>
-        <p class="link-description">Find items in libraries worldwide</p>
-      </li>
-    </ul>
+            <mat-list>
+              <mat-list-item>
+                <div class="list-item-content">
+                  <a [href]="borrowDirectLink$ | async" target="_blank" rel="noopener noreferrer">
+                    <mat-icon class="link-icon">open_in_new</mat-icon>
+                    Search BorrowDirect
+                  </a>
+                  <p class="link-description">Borrow from partner libraries</p>
+                </div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <div class="list-item-content">
+                  <a [href]="worldCatLink$ | async" target="_blank" rel="noopener noreferrer">
+                    <mat-icon class="link-icon">open_in_new</mat-icon>
+                    Search WorldCat
+                  </a>
+                  <p class="link-description">Find items in libraries worldwide</p>
+                </div>
+              </mat-list-item>
+            </mat-list>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
+
 </div>

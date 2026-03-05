@@ -1,0 +1,15 @@
+<div *ngIf="isAstmSearch$ | async" class="hint-container">
+  <mat-card class="astm-hint-card">
+    <mat-card-content>
+      <div class="hint-content">
+        <mat-icon>info</mat-icon>
+        <span>
+          You can access ASTM standards using
+          <a [href]="ASTM_COMPASS_URL" target="_blank" rel="noopener noreferrer">
+            ASTM Compass
+          </a>
+        </span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

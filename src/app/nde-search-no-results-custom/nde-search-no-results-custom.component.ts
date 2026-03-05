@@ -2,7 +2,10 @@ import { Component, inject, OnInit } from '@angular/core';
 import { createFeatureSelector, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgIf, NgFor } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 type SearchState = { searchParams: { q: string } };
 export const selectSearchState = createFeatureSelector<SearchState>('Search');
@@ -10,7 +13,7 @@ export const selectSearchState = createFeatureSelector<SearchState>('Search');
 @Component({
   selector: 'custom-nde-search-no-results-custom-component',
   standalone: true,
-  imports: [AsyncPipe, NgIf],
+  imports: [AsyncPipe, NgIf, NgFor, MatCardModule, MatIconModule, MatListModule],
   templateUrl: './nde-search-no-results-custom.component.html',
   styleUrl: './nde-search-no-results-custom.component.scss'
 })
@@ -73,32 +76,13 @@ export class NdeSearchNoResultsCustomComponent implements OnInit {
     );
   }
 
-  /**
-   * Checks if the search term is a DOI
-   * DOI pattern: 10.xxxx/xxxxx (starts with 10. followed by registrant code, slash, and suffix)
-   *
-   *
-   * https://doi.org/10.1159/000110957 is an example of DOI where we don't have access
-   *
-   */
   isDoi(term: string): boolean {
     if (!term) return false;
     const doiPattern = /^10\.\d{4,}(\.\d+)*\/[^\s]+$/i;
-    // Also match DOI URLs
     const doiUrlPattern = /^(https?:\/\/)?(dx\.)?doi\.org\/10\.\d{4,}(\.\d+)*\/[^\s]+$/i;
     return doiPattern.test(term.trim()) || doiUrlPattern.test(term.trim());
   }
 
-  /**
-   * Checks if the search term is an ISBN
-   * ISBN-10: 10 digits (may contain hyphens)
-   * ISBN-13: 13 digits starting with 978 or 979 (may contain hyphens)
-   *
-   *
-   *
-   * 978-0133430332 is an example of an ISBN where we don't have access
-   *
-   */
   isIsbn(term: string): boolean {
     if (!term) return false;
     const cleanedTerm = term.replace(/[-\s]/g, '');
@@ -107,17 +91,11 @@ export class NdeSearchNoResultsCustomComponent implements OnInit {
     return isbn10Pattern.test(cleanedTerm) || isbn13Pattern.test(cleanedTerm);
   }
 
-  /**
-   * Extracts the DOI from a search term (handles DOI URLs)
-   */
   extractDoi(term: string): string {
     const urlPattern = /^(https?:\/\/)?(dx\.)?doi\.org\//i;
     return term.trim().replace(urlPattern, '');
   }
 
-  /**
-   * Generates the OpenURL link for a DOI
-   */
   generateDoiLink(doi: string): string {
     const cleanDoi = this.extractDoi(doi);
     const params = new URLSearchParams({
@@ -131,9 +109,6 @@ export class NdeSearchNoResultsCustomComponent implements OnInit {
     return `${this.BASE_URL}?${params.toString()}`;
   }
 
-  /**
-   * Generates the OpenURL link for an ISBN
-   */
   generateIsbnLink(isbn: string): string {
     const cleanIsbn = isbn.replace(/[-\s]/g, '');
     const params = new URLSearchParams({
@@ -146,9 +121,6 @@ export class NdeSearchNoResultsCustomComponent implements OnInit {
     return `${this.BASE_URL}?${params.toString()}`;
   }
 
-  /**
-   * Generates a WorldCat search link
-   */
   generateWorldCatLink(term: string): string {
     if (!term) return this.WORLDCAT_BASE_URL;
     const params = new URLSearchParams({
@@ -157,9 +129,6 @@ export class NdeSearchNoResultsCustomComponent implements OnInit {
     return `${this.WORLDCAT_BASE_URL}?${params.toString()}`;
   }
 
-  /**
-   * Generates a BorrowDirect search link
-   */
   generateBorrowDirectLink(term: string): string {
     if (!term) return this.BORROWDIRECT_BASE_URL;
     const params = new URLSearchParams({

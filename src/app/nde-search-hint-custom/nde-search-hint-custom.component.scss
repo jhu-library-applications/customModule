@@ -1,0 +1,27 @@
+.hint-container {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  width: 100%;
+}
+
+.astm-hint-card {
+  max-width: 600px;
+  width: 100%;
+}
+
+.hint-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  a {
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
