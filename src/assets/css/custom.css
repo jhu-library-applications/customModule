@@ -1,3 +1,5 @@
+/* This color is the one that can be changed in the Alma interface */
+
 :root {
   --sys-primary: #002d72;
 }
@@ -71,10 +73,8 @@
 /* Mobile header links */
 @media (max-width: 480px) {
   .jh-header-menu ul {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px;
+    display: none;
+
   }
 }
 
@@ -100,10 +100,6 @@ nde-user-area {
   background-color: #002d72 !important;
 }
 
-/* Hide the title level request UI -- we only use item level request buttons */
-#nde\.request\.title {
-  display: none;
-}
 
 /* Hide the option for journal in the citation linker */
 nde-fetch-item #mat-radio-2 {

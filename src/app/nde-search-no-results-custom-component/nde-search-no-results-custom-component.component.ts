@@ -32,7 +32,7 @@ export class NdeSearchNoResultsCustomComponentComponent implements OnInit {
 
   private readonly BASE_PARAMS = {
     institution: '01JHU_INST',
-    vid: '01JHU_INST:JHU',
+    vid: '01JHU_INST:nde',
     ctx_ver: 'Z39.88-2004',
     ctx_enc: 'info:ofi/enc:UTF-8',
     url_ver: 'Z39.88-2004',
