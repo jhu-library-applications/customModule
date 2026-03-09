@@ -71,18 +71,6 @@
   text-decoration: underline;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .content-container {
-    flex-direction: column;
-  }
-
-  .flex-60,
-  .flex-40 {
-    flex: 1;
-  }
-}
-
 /* Utility classes */
 .display-flex {
   display: flex;
