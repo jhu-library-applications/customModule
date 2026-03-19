@@ -21,8 +21,12 @@ console.log('Hello from custom.js');
       this._shouldInterceptHoldings = true;
     }
 
-    if (ALMA_ITEM_REQUEST_PATTERN.test(url) && method.toUpperCase() === 'POST') {
+    if (ALMA_ITEM_REQUEST_PATTERN.test(url)) {
       this._shouldInterceptAlmaRequest = true;
+      // Mark for response interception on GET requests
+      if (method.toUpperCase() === 'GET') {
+        this._shouldInterceptAlmaResponse = true;
+      }
     }
 
     return originalOpen.apply(this, arguments);
@@ -43,8 +47,8 @@ console.log('Hello from custom.js');
       }
     }
 
-    // AlmaItemRequest override for Office Delivery
-    if (this._shouldInterceptAlmaRequest && body) {
+    // AlmaItemRequest override for Office Delivery (POST request modification)
+    if (this._shouldInterceptAlmaRequest && this._interceptedMethod.toUpperCase() === 'POST' && body) {
       try {
         const data = JSON.parse(body);
 
@@ -67,6 +71,52 @@ console.log('Hello from custom.js');
       } catch (e) {
         console.log("Error overriding AlmaItemRequest: ", e);
       }
+    }
+
+    // AlmaItemRequest response interception (for modifying pickup location names)
+    if (this._shouldInterceptAlmaResponse) {
+      const xhr = this;
+
+      this.addEventListener('readystatechange', function() {
+        if (xhr.readyState === 4) {
+          try {
+            const responseData = JSON.parse(xhr.responseText);
+
+            // Modify the pickup location names
+            if (responseData['services-arr'] && responseData['services-arr'].services) {
+              responseData['services-arr'].services.forEach(function(service) {
+                if (service['groups-list-map']) {
+                  service['groups-list-map'].forEach(function(item) {
+                    if (item.pickupLocation) {
+                      item.pickupLocation.forEach(function(location) {
+                        if (location.key === "126006350007861$$LIBRARY") {
+                          location.value = "Milton S. Eisenhower Library - Annex";
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+
+            // Override the response properties
+            Object.defineProperty(xhr, 'responseText', {
+              get: function() {
+                return JSON.stringify(responseData);
+              }
+            });
+
+            Object.defineProperty(xhr, 'response', {
+              get: function() {
+                return JSON.stringify(responseData);
+              }
+            });
+
+          } catch (error) {
+            console.log('Error modifying AlmaItemRequest response:', error);
+          }
+        }
+      });
     }
 
     return originalSend.call(this, body);
