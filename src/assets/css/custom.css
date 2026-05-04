@@ -124,3 +124,25 @@ nde-fetch-item #mat-radio-2 {
     max-width: 100% !important;
   }
 }
+
+/* CAT-15: Style item-level request buttons to match Catalyst styling */
+nde-location-item-service-button button {
+  background-color: #0072ce !important;
+  color: #fff !important;
+  font-weight: bold;
+  text-transform: none;
+  padding: 0.5em 1.25em !important;
+  border-radius: 1em !important;
+  white-space: nowrap;
+  min-width: initial;
+  cursor: pointer;
+}
+
+nde-location-item-service-button button .getit-service-button,
+nde-location-item-service-button button .mdc-button__label {
+  color: #fff !important;
+}
+
+nde-location-item-service-button button:hover {
+  background-color: #002d72 !important;
+}
