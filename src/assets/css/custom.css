@@ -107,8 +107,8 @@ nde-user-area {
   display: none;
 }
 
-/* Hide the option for journal in the citation linker */
-nde-fetch-item #mat-radio-2 {
+/* CAT-12 Hide the option for journal in the citation linker */
+nde-fetch-item #mat-radio-1 {
   display: none;
 }
 
