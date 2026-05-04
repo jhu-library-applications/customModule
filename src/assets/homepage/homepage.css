@@ -62,12 +62,9 @@
   margin-bottom: 0.5rem;
 }
 
+/* CAT-21 Improve accessibility of the home page links */
 .card-content a {
   color: #002d72;
-  text-decoration: none;
-}
-
-.card-content a:hover {
   text-decoration: underline;
 }
 
