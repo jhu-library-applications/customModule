@@ -146,3 +146,9 @@ nde-location-item-service-button button .mdc-button__label {
 nde-location-item-service-button button:hover {
   background-color: #002d72 !important;
 }
+
+/* CAT-20 Hide the Discovery message on the homepage */
+
+.custom-search-bar-container h1 {
+  display: none;
+}
