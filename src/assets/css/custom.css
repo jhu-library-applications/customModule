@@ -102,8 +102,20 @@ nde-user-area {
   background-color: #002d72 !important;
 }
 
-/* Hide the title level request UI -- we only use item level request buttons */
-#nde\.request\.title {
+/* CAT-24 Hide the title level request UI -- we only use item level request buttons */
+#nde\.request\.title mat-expansion-panel-header {
+  display: none;
+}
+
+#nde\.request\.title nde-notification {
+  display: none;
+}
+
+#nde\.request\.title .no-requests {
+  display: none;
+}
+
+#nde\.request\.title .full-display-divider {
   display: none;
 }
 
