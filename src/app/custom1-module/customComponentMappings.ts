@@ -3,6 +3,7 @@ import { NdeSearchHintCustomComponent } from "../nde-search-hint-custom/nde-sear
 import { NdeSearchNoResultsCustomComponent } from "../nde-search-no-results-custom/nde-search-no-results-custom.component";
 import { NdeRequestFormCustomComponent } from "../nde-request-form-custom/nde-request-form-custom.component";
 import { NdeProblemReporterCustomComponent } from "../nde-problem-reporter-custom/nde-problem-reporter-custom.component";
+import { NdeFetchItemJournalOptionHiderComponent } from "../nde-fetch-item-journal-option-hider/nde-fetch-item-journal-option-hider.component";
 
 
 // Define the map
@@ -11,5 +12,6 @@ export const selectorComponentMap = new Map<string, any>([
   ["nde-search-bar-container-top", NdeSearchBarContainerCustomComponent],
   ["nde-search-no-results-top", NdeSearchNoResultsCustomComponent],
   ["nde-search-results-container-top", NdeSearchHintCustomComponent ],
-  ["nde-user-area-top", NdeProblemReporterCustomComponent]
+  ["nde-user-area-top", NdeProblemReporterCustomComponent],
+  ["nde-fetch-item-bottom", NdeFetchItemJournalOptionHiderComponent]
 ]);

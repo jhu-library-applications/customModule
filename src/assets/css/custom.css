@@ -119,11 +119,6 @@ nde-user-area {
   display: none;
 }
 
-/* CAT-12 Hide the option for journal in the citation linker */
-nde-fetch-item #mat-radio-1 {
-  display: none;
-}
-
 /* Content container - single column on mobile and tablet */
 @media (max-width: 1024px) {
   .content-container {
