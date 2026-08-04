@@ -241,6 +241,25 @@ nde-location-item-service-button button:hover {
   text-decoration: underline;
 }
 
+/* CAT-263 Previews with many creators are too long */
+
+[data-qa="brief_result_creator"] .record-main-details-font-size {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+[data-qa="brief_result_creator"] .record-main-details-font-size span,
+[data-qa="brief_result_creator"] .record-main-details-font-size nde-highlight {
+  display: inline !important;
+}
+
+[data-qa="brief_result_creator"] .record-main-details-font-size .flex-row {
+  display: inline !important;
+}
+
 /* Utility classes */
 .display-flex {
   display: flex;
