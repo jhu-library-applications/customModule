@@ -60,6 +60,15 @@
   padding: 30px;
 }
 
+/* CAT-254 Preview banner */
+.preview-banner {
+  padding: 1em;
+}
+
+.preview-banner a {
+  text-decoration: underline;
+}
+
 /* Tablet header links */
 @media (max-width: 768px) {
   .jh-header-menu ul {
@@ -158,4 +167,101 @@ nde-location-item-service-button button:hover {
 
 .custom-search-bar-container h1 {
   display: none;
+}
+
+/* Homepage CSS */
+
+/* Custom homepage styles */
+
+.main-content {
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.content-container {
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.main-section {
+  gap: 1.5rem;
+}
+
+.sidebar {
+  gap: 1.5rem;
+}
+
+.flex-60 {
+  flex: 0 0 60%;
+}
+
+.flex-40 {
+  flex: 0 0 40%;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1.5rem 1.5rem 0;
+}
+
+.card-content {
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.help-section,
+.resources-section {
+  margin-bottom: 1.5rem;
+}
+
+.help-section:last-child,
+.resources-section:last-child {
+  margin-bottom: 0;
+}
+
+.card-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.card-content li {
+  margin-bottom: 0.5rem;
+}
+
+/* CAT-21 Improve accessibility of the home page links */
+.card-content a {
+  color: #002d72;
+  text-decoration: underline;
+}
+
+/* Utility classes */
+.display-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.gap-1 {
+  gap: 1rem;
+}
+
+.gap-05 {
+  gap: 0.5rem;
 }
