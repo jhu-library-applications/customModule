@@ -5,7 +5,7 @@ console.log('Hello from custom.js');
 
   /* Override the number of items retrieved by the Holdings API.
   This is 10 by default, which is much too small for items with large amounts of holdings. */
-  const HOLDINGS_URL_PATTERN = /\/primaws\/rest\/priv\/ILSServices\/holdings\?/;
+  const HOLDINGS_URL_PATTERN = /\/primaws\/rest\/priv\/ILSServices\/holdings(\/[^?]+)?\?/;
 
   /* Override AlmaItemRequest to handle Office Delivery checkbox */
   const ALMA_ITEM_REQUEST_PATTERN = /\/AlmaItemRequest\?/;
