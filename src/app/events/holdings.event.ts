@@ -36,8 +36,13 @@ export class HoldingsEvent extends NDEEventBase {
       data.filters.noItem = 500; // Retrieve 500 each call
     }
 
-    const mod: RequestModification = { ...data };
-    console.log(mod)
+    const mod: RequestModification = {
+      method,
+      url,
+      headers,
+      body: JSON.stringify(data)
+    };
+
     return mod;
   }
 

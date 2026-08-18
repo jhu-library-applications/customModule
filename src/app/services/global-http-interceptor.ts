@@ -387,8 +387,6 @@ function patchXHR(): void {
       return;
     }
 
-
-    console.log("[REQUESTTTT]" + JSON.stringify(mod.body));
     // If the URL was modified, re-open with the new URL
     if (mod.url !== url) {
       (this as any)[NDE_URL] = mod.url;
@@ -465,7 +463,6 @@ function patchXHR(): void {
       });
     });
 
-    console.log("[MODBod]" + JSON.stringify(mod.body));
     const sendBody = mod.body !== undefined ? mod.body : body;
     return originalSend.apply(this, [sendBody] as any);
   };
