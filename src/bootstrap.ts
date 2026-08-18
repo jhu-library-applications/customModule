@@ -1,3 +1,6 @@
+import { installGlobalHttpInterceptor } from './app/services/global-http-interceptor';
+installGlobalHttpInterceptor();
+
 import "@angular/compiler";
 import { AppModule } from './app/app.module';
 import {bootstrap} from "@angular-architects/module-federation-tools";
@@ -11,4 +14,3 @@ export const bootstrapRemoteApp = (bootstrapOptions: any) => {
     return r
   });
 }
-
