@@ -8,9 +8,14 @@ import {TranslateModule} from "@ngx-translate/core";
 import { CommonModule } from '@angular/common';
 import { AutoAssetSrcDirective } from './services/auto-asset-src.directive';
 import {SHELL_ROUTER} from "./injection-tokens";
-
-
-
+import { GlobalHttpEventService } from './services/global-http-event.service';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { getInterceptorProviders } from './decorators/nde-interceptor.decorator';
+import { getEventProviders } from './decorators/nde-event.decorator';
+import './events/_registry';
 export const AppModule = ({providers, shellRouter}: {providers:any, shellRouter: Router}) => {
    @NgModule({
     declarations: [
@@ -23,14 +28,24 @@ export const AppModule = ({providers, shellRouter}: {providers:any, shellRouter:
       CommonModule,
       TranslateModule.forRoot({})
     ],
-    providers: [...providers, {provide: SHELL_ROUTER, useValue: shellRouter}],
+    providers: [...providers, {provide: SHELL_ROUTER, useValue: shellRouter}, provideHttpClient(withInterceptorsFromDi()),
+       ...getInterceptorProviders(),
+       ...getEventProviders(),
+      GlobalHttpEventService],
     bootstrap: []
   })
   class AppModule implements DoBootstrap{
     private webComponentSelectorMap = new Map<string,  NgElementConstructor<unknown>>();
 
-    constructor(private injector: Injector, private router: Router) {
+    constructor(private injector: Injector, 
+      private router: Router,
+      globalHttp: GlobalHttpEventService,
+    
+    ) {
       router.dispose(); //this prevents the router from being initialized and interfering with the shell app router
+
+
+  
     }
 
     ngDoBootstrap(appRef: ApplicationRef) {
@@ -50,4 +65,3 @@ export const AppModule = ({providers, shellRouter}: {providers:any, shellRouter:
   }
   return AppModule
 }
-
