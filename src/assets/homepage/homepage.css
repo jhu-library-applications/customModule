@@ -34,6 +34,11 @@
   overflow: hidden;
 }
 
+/* CAT-266 Add NDE Homepage Preview Info */
+.preview-card {
+  background: #F1C400;
+}
+
 .card-header {
   padding: 1.5rem 1.5rem 0;
 }
