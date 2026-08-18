@@ -1,6 +1,10 @@
 /**
  * Global HTTP Interceptor — XHR + Fetch Monkey-Patch
  *
+ * 
+ * https://github.com/libis/NDE_customModule
+ * 
+ * 
  * Patches XMLHttpRequest and window.fetch at the browser level to capture ALL
  * HTTP traffic, including requests made by the host application across the
  * Module Federation boundary.

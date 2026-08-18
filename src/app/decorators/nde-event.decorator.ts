@@ -1,6 +1,8 @@
 /**
  * @NDEEvent Decorator
  *
+ * https://github.com/libis/NDE_customModule
+ * 
  * Auto-registers event handlers that subscribe to GlobalHttpEventService streams.
  * Unlike interceptors (which Angular only instantiates on HttpClient usage),
  * events are eagerly created when the module bootstraps — guaranteeing their

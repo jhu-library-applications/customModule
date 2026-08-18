@@ -4,6 +4,9 @@
  * Auto-registers HTTP interceptors for NDE customization.
  * Eliminates the need to manually configure providers.
  * 
+ * 
+ * https://github.com/libis/NDE_customModule
+ * 
  * @example
  * ```typescript
  * @NDEInterceptor({ order: 10 })

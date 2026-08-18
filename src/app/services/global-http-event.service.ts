@@ -1,6 +1,8 @@
 /**
  * GlobalHttpEventService — Angular bridge for the global HTTP interceptor.
  *
+ * https://github.com/libis/NDE_customModule
+ * 
  * This service connects the browser-level XHR/fetch monkey-patch (Layer 1)
  * to Angular's dependency injection and RxJS world (Layer 2).
  *
