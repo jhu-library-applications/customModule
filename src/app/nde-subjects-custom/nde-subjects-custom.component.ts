@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { SHELL_ROUTER } from "../injection-tokens";
 
 @Component({
   selector: 'custom-nde-subjects-custom',
@@ -15,10 +16,10 @@ Inspired by https://github.com/project-kotinos/trln___trln_argon/blob/d9507509d8
 
 */
 export class NdeSubjectsCustomComponent implements OnInit {
-
-
+  private router = inject(SHELL_ROUTER);
   ngOnInit(): void {
-    const searchPath = "/nde/search?vid=01JHU_INST%3Ande&amp;search_scope=books&amp;mode=advanced&amp;tab=books&amp;query=sub%2Cequals%2C";
+    const router = this.router;
+
     const zip = (a: any[], b: { [x: string]: any; }) => a.map((k: any, i: string | number) => [k, b[i]]);
 
     function hasClass(target: EventTarget | null, className: string) {
@@ -53,7 +54,16 @@ export class NdeSubjectsCustomComponent implements OnInit {
       const linked_subjects: any = [];
 
       zipped_subjects.forEach((subject_pair) => {
-        linked_subjects.push(`<a class="hyper-text hierarchy-subject" href="${searchPath}${subject_pair[1]}">${subject_pair[0]}</a>`);
+        const encodedSearchTerm = subject_pair[1].replaceAll(',', '─');
+
+        const searchPath = `/nde/search?query=sub,equals,${encodedSearchTerm}&mode=advanced&tab=advanced&vid=01JHU_INST:nde`;
+        linked_subjects.push(`
+          <a class="hyper-text hierarchy-subject mat-body-medium" href="${searchPath}">
+   
+                 ${subject_pair[0]}
+
+          </a>
+          `);
       })
 
       el.outerHTML = linked_subjects.join(' -- ')
@@ -74,6 +84,20 @@ export class NdeSubjectsCustomComponent implements OnInit {
         var siblings = getPreviousSiblings((e.target as HTMLInputElement))
         siblings.forEach((sibling) => {
           (sibling as HTMLInputElement).style.textDecoration = ""
+        })
+      }
+    })
+
+
+    document.addEventListener('click', function (e) {
+      if (hasClass(e.target, 'hierarchy-subject')) {
+        e.preventDefault();
+
+        const link = (e.target as HTMLInputElement).getAttribute('href') as string
+        
+
+        router.navigateByUrl(link.replace('/nde/', '/'), {
+          replaceUrl: true
         })
       }
     })
