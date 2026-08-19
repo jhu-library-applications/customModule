@@ -1,0 +1,82 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'custom-nde-subjects-custom',
+  standalone: true,
+  imports: [],
+  templateUrl: './nde-subjects-custom.component.html',
+  styleUrl: './nde-subjects-custom.component.scss'
+})
+
+/* 
+
+Inspired by https://github.com/project-kotinos/trln___trln_argon/blob/d9507509d8e86da5f81df3993dc402b3953623a4/lib/trln_argon/view_helpers/subjects_helper.rb
+
+
+*/
+export class NdeSubjectsCustomComponent implements OnInit {
+
+
+  ngOnInit(): void {
+    const searchPath = "/nde/search?vid=01JHU_INST%3Ande&amp;search_scope=books&amp;mode=advanced&amp;tab=books&amp;query=sub%2Cequals%2C";
+    const zip = (a: any[], b: { [x: string]: any; }) => a.map((k: any, i: string | number) => [k, b[i]]);
+
+    function hasClass(target: EventTarget | null, className: string) {
+      return ((<Element>target).classList && (<Element>target).classList.contains(className));
+    }
+
+    function getPreviousSiblings(el: any) {
+      var n = el, ret = [];
+      while (n = n.previousElementSibling) {
+        ret.push(n)
+      }
+      return ret;
+    }
+
+    var allSubjects = document.querySelectorAll('[data-qa="detail_subject"] .hyper-text') as NodeListOf<HTMLInputElement>;
+
+    allSubjects.forEach((el) => {
+      var hierarchy: any = []
+
+      var subjects = el.innerText.split(' -- ');
+
+      el.innerText.split(' -- ').forEach((subject, index) => {
+        if (hierarchy[index - 1] != undefined) {
+          hierarchy.push(hierarchy[index - 1] + " -- " + subject)
+        } else {
+          hierarchy.push(subject)
+        }
+
+      })
+
+      const zipped_subjects = zip(subjects, hierarchy)
+      const linked_subjects: any = [];
+
+      zipped_subjects.forEach((subject_pair) => {
+        linked_subjects.push(`<a class="hyper-text hierarchy-subject" href="${searchPath}${subject_pair[1]}">${subject_pair[0]}</a>`);
+      })
+
+      el.outerHTML = linked_subjects.join(' -- ')
+    })
+
+
+    document.addEventListener('mouseover', function (e) {
+      if (hasClass(e.target, 'hierarchy-subject')) {
+        var siblings = getPreviousSiblings((e.target as HTMLInputElement))
+        siblings.forEach((sibling) => {
+          (sibling as HTMLInputElement).style.textDecoration = "underline"
+        })
+      }
+    })
+
+    document.addEventListener('mouseout', function (e) {
+      if (hasClass(e.target, 'hierarchy-subject')) {
+        var siblings = getPreviousSiblings((e.target as HTMLInputElement))
+        siblings.forEach((sibling) => {
+          (sibling as HTMLInputElement).style.textDecoration = ""
+        })
+      }
+    })
+
+  }
+}

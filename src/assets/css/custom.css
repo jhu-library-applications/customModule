@@ -284,3 +284,7 @@ nde-location-item-service-button button:hover {
 .gap-05 {
   gap: 0.5rem;
 }
+
+.hierarchy-subject { 
+  text-decoration: underline;
+}

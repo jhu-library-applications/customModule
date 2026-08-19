@@ -4,6 +4,7 @@ import { NdeSearchNoResultsCustomComponent } from "../nde-search-no-results-cust
 import { NdeRequestFormCustomComponent } from "../nde-request-form-custom/nde-request-form-custom.component";
 import { NdeProblemReporterCustomComponent } from "../nde-problem-reporter-custom/nde-problem-reporter-custom.component";
 import { NdeFetchItemJournalOptionHiderComponent } from "../nde-fetch-item-journal-option-hider/nde-fetch-item-journal-option-hider.component";
+import { NdeSubjectsCustomComponent } from "../nde-subjects-custom/nde-subjects-custom.component";
 
 
 // Define the map
@@ -13,5 +14,6 @@ export const selectorComponentMap = new Map<string, any>([
   ["nde-search-no-results-top", NdeSearchNoResultsCustomComponent],
   ["nde-search-results-container-top", NdeSearchHintCustomComponent ],
   ["nde-user-area-top", NdeProblemReporterCustomComponent],
-  ["nde-fetch-item-bottom", NdeFetchItemJournalOptionHiderComponent]
+  ["nde-fetch-item-bottom", NdeFetchItemJournalOptionHiderComponent],
+  ["nde-full-display-details-top", NdeSubjectsCustomComponent]
 ]);
