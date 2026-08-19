@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { SHELL_ROUTER } from "../injection-tokens";
+import { createAction, createFeatureSelector, createSelector, props, Store } from '@ngrx/store';
 
 @Component({
   selector: 'custom-nde-subjects-custom',
@@ -17,7 +18,21 @@ Inspired by https://github.com/project-kotinos/trln___trln_argon/blob/d9507509d8
 */
 export class NdeSubjectsCustomComponent implements OnInit {
   private router = inject(SHELL_ROUTER);
+  private store = inject(Store);
+
+
+
   ngOnInit(): void {
+    const selectUserFeature = createFeatureSelector<{ displaySummary: boolean }>('Search');
+    const displaySummary = createSelector(selectUserFeature, state => state.displaySummary);
+    const displaySummarySelected = this.store.selectSignal(displaySummary);
+    const setDisplaySummary = createAction(
+      '[Search] Set Display Summary',
+      props<{ displaySummary: boolean }>()
+    );
+    const store = this.store;
+
+
     const router = this.router;
 
     const zip = (a: any[], b: { [x: string]: any; }) => a.map((k: any, i: string | number) => [k, b[i]]);
@@ -89,13 +104,13 @@ export class NdeSubjectsCustomComponent implements OnInit {
     })
 
 
+
     document.addEventListener('click', function (e) {
       if (hasClass(e.target, 'hierarchy-subject')) {
         e.preventDefault();
 
         const link = (e.target as HTMLInputElement).getAttribute('href') as string
-        
-
+        store.dispatch(setDisplaySummary({ displaySummary: true }));
         router.navigateByUrl(link.replace('/nde/', '/'), {
           replaceUrl: true
         })
