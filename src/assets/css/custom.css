@@ -142,7 +142,7 @@ nde-user-area {
 }
 
 /* CAT-15: Style item-level request buttons to match Catalyst styling */
-nde-location-item-service-button button {
+nde-location-item-service-button button, .get-it-sign-in {
   background-color: #0072ce !important;
   color: #fff !important;
   font-weight: bold;
