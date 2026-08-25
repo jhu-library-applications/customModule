@@ -71,7 +71,7 @@ export class NdeSubjectsCustomComponent implements OnInit {
       zipped_subjects.forEach((subject_pair) => {
         const encodedSearchTerm = subject_pair[1].replaceAll(',', '─');
 
-        const searchPath = `/nde/search?query=sub,equals,${encodedSearchTerm}&mode=advanced&tab=advanced&vid=01JHU_INST:nde`;
+        const searchPath = `/nde/search?query=sub,contains,${encodedSearchTerm}&mode=advanced&tab=advanced&vid=01JHU_INST:nde`;
         linked_subjects.push(`
           <a class="hyper-text hierarchy-subject mat-body-medium" href="${searchPath}">
    
