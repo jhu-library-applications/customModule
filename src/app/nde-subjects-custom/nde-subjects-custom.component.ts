@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, AfterContentInit } from '@angular/core';
 import { SHELL_ROUTER } from "../injection-tokens";
 import { createAction, createFeatureSelector, createSelector, props, Store } from '@ngrx/store';
 
@@ -16,40 +16,49 @@ Inspired by https://github.com/project-kotinos/trln___trln_argon/blob/d9507509d8
 
 
 */
-export class NdeSubjectsCustomComponent implements OnInit {
+export class NdeSubjectsCustomComponent implements AfterContentInit {
   private router = inject(SHELL_ROUTER);
   private store = inject(Store);
 
 
+  hasClass(target: EventTarget | null, className: string) {
+    return ((<Element>target)?.classList && (<Element>target)?.classList.contains(className))
+  }
 
-  ngOnInit(): void {
-    const selectUserFeature = createFeatureSelector<{ displaySummary: boolean }>('Search');
-    const displaySummary = createSelector(selectUserFeature, state => state.displaySummary);
-    const displaySummarySelected = this.store.selectSignal(displaySummary);
-    const setDisplaySummary = createAction(
-      '[Search] Set Display Summary',
-      props<{ displaySummary: boolean }>()
-    );
-    const store = this.store;
+  mouseOverOverride(e: Event) {
+    const isHierarchySubject: boolean = this?.hasClass(e.target, 'hierarchy-subject');
+    if (isHierarchySubject) {
+      var siblings = this.getPreviousSiblings((e.target as HTMLInputElement))
+      siblings.forEach((sibling) => {
+        (sibling as HTMLInputElement).style.textDecoration = "underline"
+      })
+    }
+  }
+
+  mouseOutOverride(e: Event) {
+    const isHierarchySubject: boolean = this?.hasClass(e.target, 'hierarchy-subject');
+
+    if (isHierarchySubject) {
+      var siblings = this.getPreviousSiblings((e.target as HTMLInputElement))
+      siblings.forEach((sibling) => {
+        (sibling as HTMLInputElement).style.textDecoration = ""
+      })
+    }
+  }
+
+  getPreviousSiblings(el: any) {
+    var n = el, ret = [];
+    while (n = n.previousElementSibling) {
+      ret.push(n)
+    }
+    return ret;
+  }
 
 
-    const router = this.router;
-
+  processSubjects() {
     const zip = (a: any[], b: { [x: string]: any; }) => a.map((k: any, i: string | number) => [k, b[i]]);
 
-    function hasClass(target: EventTarget | null, className: string) {
-      return ((<Element>target).classList && (<Element>target).classList.contains(className));
-    }
-
-    function getPreviousSiblings(el: any) {
-      var n = el, ret = [];
-      while (n = n.previousElementSibling) {
-        ret.push(n)
-      }
-      return ret;
-    }
-
-    var allSubjects = document.querySelectorAll('[data-qa="detail_subject"] .hyper-text') as NodeListOf<HTMLInputElement>;
+    const allSubjects = document.querySelectorAll('[data-qa="detail_subject"] .hyper-text') as NodeListOf<HTMLInputElement>;
 
     allSubjects.forEach((el) => {
       var hierarchy: any = []
@@ -83,27 +92,29 @@ export class NdeSubjectsCustomComponent implements OnInit {
 
       el.outerHTML = linked_subjects.join(' -- ')
     })
+  }
 
+  initBehavior() {
+    const store = this.store;
+    const router = this.router;
+    const hasClass = this.hasClass
+    const mouseOverOverride = this.mouseOverOverride;
+    const mouseOutOverride = this.mouseOutOverride;
+    const selectUserFeature = createFeatureSelector<{ displaySummary: boolean }>('Search');
+    const displaySummary = createSelector(selectUserFeature, state => state.displaySummary);
+    const displaySummarySelected = this.store.selectSignal(displaySummary);
+    const setDisplaySummary = createAction(
+      '[Search] Set Display Summary',
+      props<{ displaySummary: boolean }>()
+    );
 
     document.addEventListener('mouseover', function (e) {
-      if (hasClass(e.target, 'hierarchy-subject')) {
-        var siblings = getPreviousSiblings((e.target as HTMLInputElement))
-        siblings.forEach((sibling) => {
-          (sibling as HTMLInputElement).style.textDecoration = "underline"
-        })
-      }
+      mouseOverOverride(e);
     })
 
     document.addEventListener('mouseout', function (e) {
-      if (hasClass(e.target, 'hierarchy-subject')) {
-        var siblings = getPreviousSiblings((e.target as HTMLInputElement))
-        siblings.forEach((sibling) => {
-          (sibling as HTMLInputElement).style.textDecoration = ""
-        })
-      }
+      mouseOutOverride(e);
     })
-
-
 
     document.addEventListener('click', function (e) {
       if (hasClass(e.target, 'hierarchy-subject')) {
@@ -116,6 +127,21 @@ export class NdeSubjectsCustomComponent implements OnInit {
         })
       }
     })
+  }
 
+  ngAfterContentInit() {
+    this.processSubjects();
+    this.initBehavior();
+  }
+
+
+
+  ngOnDestroy() {
+    const customSubjects = document.querySelectorAll('.hierarchy-subject');
+    customSubjects.forEach((e: Element) => {
+      console.log("Removing!")
+      e.removeEventListener('mouseover', this.mouseOverOverride);
+      e.removeEventListener('mouseout', this.mouseOutOverride);
+    })
   }
 }
