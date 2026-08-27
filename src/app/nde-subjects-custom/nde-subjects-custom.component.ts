@@ -1,6 +1,19 @@
-import { Component, inject, AfterContentInit } from '@angular/core';
-import { SHELL_ROUTER } from "../injection-tokens";
-import { createAction, createFeatureSelector, createSelector, props, Store } from '@ngrx/store';
+import {
+  Component,
+  inject,
+  AfterViewInit,
+  OnDestroy
+} from '@angular/core';
+
+import {
+  createAction,
+  createFeatureSelector,
+  createSelector,
+  props,
+  Store
+} from '@ngrx/store';
+
+import { SHELL_ROUTER } from '../injection-tokens';
 
 @Component({
   selector: 'custom-nde-subjects-custom',
@@ -10,138 +23,173 @@ import { createAction, createFeatureSelector, createSelector, props, Store } fro
   styleUrl: './nde-subjects-custom.component.scss'
 })
 
-/* 
+/*
 
-Inspired by https://github.com/project-kotinos/trln___trln_argon/blob/d9507509d8e86da5f81df3993dc402b3953623a4/lib/trln_argon/view_helpers/subjects_helper.rb
-
+Inspired by:
+https://github.com/project-kotinos/trln___trln_argon/blob/d9507509d8e86da5f81df3993dc402b3953623a4/lib/trln_argon/view_helpers/subjects_helper.rb
 
 */
-export class NdeSubjectsCustomComponent implements AfterContentInit {
+export class NdeSubjectsCustomComponent implements AfterViewInit, OnDestroy {
   private router = inject(SHELL_ROUTER);
   private store = inject(Store);
 
+  private observer?: MutationObserver;
 
-  hasClass(target: EventTarget | null, className: string) {
-    return ((<Element>target)?.classList && (<Element>target)?.classList.contains(className))
+  private selectUserFeature = createFeatureSelector<{ displaySummary: boolean }>('Search');
+
+  private displaySummary = createSelector(
+    this.selectUserFeature,
+    state => state.displaySummary
+  );
+
+  private displaySummarySelected = this.store.selectSignal(this.displaySummary);
+
+  private setDisplaySummary = createAction(
+    '[Search] Set Display Summary',
+    props<{ displaySummary: boolean }>()
+  );
+
+  hasClass(target: EventTarget | null, className: string): boolean {
+    return target instanceof Element && target.classList.contains(className);
   }
 
-  mouseOverOverride(e: Event) {
-    const isHierarchySubject: boolean = this?.hasClass(e.target, 'hierarchy-subject');
+  mouseOverOverride = (e: Event) => {
+    const isHierarchySubject = this.hasClass(e.target, 'hierarchy-subject');
+
     if (isHierarchySubject) {
-      var siblings = this.getPreviousSiblings((e.target as HTMLInputElement))
-      siblings.forEach((sibling) => {
-        (sibling as HTMLInputElement).style.textDecoration = "underline"
-      })
-    }
-  }
+      const siblings = this.getPreviousSiblings(e.target as HTMLElement);
 
-  mouseOutOverride(e: Event) {
-    const isHierarchySubject: boolean = this?.hasClass(e.target, 'hierarchy-subject');
+      siblings.forEach((sibling) => {
+        sibling.style.textDecoration = 'underline';
+      });
+    }
+  };
+
+  mouseOutOverride = (e: Event) => {
+    const isHierarchySubject = this.hasClass(e.target, 'hierarchy-subject');
 
     if (isHierarchySubject) {
-      var siblings = this.getPreviousSiblings((e.target as HTMLInputElement))
-      siblings.forEach((sibling) => {
-        (sibling as HTMLInputElement).style.textDecoration = ""
-      })
-    }
-  }
+      const siblings = this.getPreviousSiblings(e.target as HTMLElement);
 
-  getPreviousSiblings(el: any) {
-    var n = el, ret = [];
-    while (n = n.previousElementSibling) {
-      ret.push(n)
+      siblings.forEach((sibling) => {
+        sibling.style.textDecoration = '';
+      });
     }
+  };
+
+  clickOverride = (e: Event) => {
+    if (this.hasClass(e.target, 'hierarchy-subject')) {
+      e.preventDefault();
+
+      const link = (e.target as HTMLAnchorElement).getAttribute('href');
+
+      if (!link) {
+        return;
+      }
+
+      this.store.dispatch(
+        this.setDisplaySummary({
+          displaySummary: true
+        })
+      );
+
+      this.router.navigateByUrl(link.replace('/nde/', '/'), {
+        replaceUrl: true
+      });
+    }
+  };
+
+  getPreviousSiblings(el: HTMLElement): HTMLElement[] {
+    const ret: HTMLElement[] = [];
+    let n: Element | null = el;
+
+    while ((n = n.previousElementSibling)) {
+      ret.push(n as HTMLElement);
+    }
+
     return ret;
   }
 
-
   processSubjects() {
-    const zip = (a: any[], b: { [x: string]: any; }) => a.map((k: any, i: string | number) => [k, b[i]]);
+    const zip = (a: string[], b: string[]) => {
+      return a.map((k, i) => [k, b[i]]);
+    };
 
-    const allSubjects = document.querySelectorAll('[data-qa="detail_subject"] .hyper-text') as NodeListOf<HTMLInputElement>;
+    const allSubjects = document.querySelectorAll(
+      '[data-qa="detail_subject"] .hyper-text:not(.hierarchy-subject)'
+    ) as NodeListOf<HTMLElement>;
 
     allSubjects.forEach((el) => {
-      var hierarchy: any = []
+      const originalText = el.innerText.trim();
 
-      var subjects = el.innerText.split(' -- ');
+      if (!originalText) {
+        return;
+      }
 
-      el.innerText.split(' -- ').forEach((subject, index) => {
-        if (hierarchy[index - 1] != undefined) {
-          hierarchy.push(hierarchy[index - 1] + " -- " + subject)
+      if (!originalText.includes(' -- ')) {
+        return;
+      }
+
+      const hierarchy: string[] = [];
+      const subjects = originalText.split(' -- ');
+
+      subjects.forEach((subject, index) => {
+        if (hierarchy[index - 1] !== undefined) {
+          hierarchy.push(`${hierarchy[index - 1]} -- ${subject}`);
         } else {
-          hierarchy.push(subject)
+          hierarchy.push(subject);
         }
+      });
 
-      })
+      const zippedSubjects = zip(subjects, hierarchy);
+      const linkedSubjects: string[] = [];
 
-      const zipped_subjects = zip(subjects, hierarchy)
-      const linked_subjects: any = [];
+      zippedSubjects.forEach((subjectPair) => {
+        const label = subjectPair[0];
+        const fullHierarchySubject = subjectPair[1];
 
-      zipped_subjects.forEach((subject_pair) => {
-        const encodedSearchTerm = subject_pair[1].replaceAll(',', '─');
+        const encodedSearchTerm = fullHierarchySubject.replaceAll(',', '─');
 
-        const searchPath = `/nde/search?query=sub,contains,${encodedSearchTerm}&mode=advanced&tab=advanced&vid=01JHU_INST:nde`;
-        linked_subjects.push(`
+        const searchPath =
+          `/nde/search?query=sub,contains,${encodedSearchTerm}` +
+          `&mode=advanced&tab=advanced&vid=01JHU_INST:nde`;
+
+        linkedSubjects.push(`
           <a class="hyper-text hierarchy-subject mat-body-medium" href="${searchPath}">
-   
-                 ${subject_pair[0]}
-
+            ${label}
           </a>
-          `);
-      })
+        `);
+      });
 
-      el.outerHTML = linked_subjects.join(' -- ')
-    })
+      el.outerHTML = linkedSubjects.join(' -- ');
+    });
   }
 
   initBehavior() {
-    const store = this.store;
-    const router = this.router;
-    const hasClass = this.hasClass
-    const mouseOverOverride = this.mouseOverOverride;
-    const mouseOutOverride = this.mouseOutOverride;
-    const selectUserFeature = createFeatureSelector<{ displaySummary: boolean }>('Search');
-    const displaySummary = createSelector(selectUserFeature, state => state.displaySummary);
-    const displaySummarySelected = this.store.selectSignal(displaySummary);
-    const setDisplaySummary = createAction(
-      '[Search] Set Display Summary',
-      props<{ displaySummary: boolean }>()
-    );
-
-    document.addEventListener('mouseover', function (e) {
-      mouseOverOverride(e);
-    })
-
-    document.addEventListener('mouseout', function (e) {
-      mouseOutOverride(e);
-    })
-
-    document.addEventListener('click', function (e) {
-      if (hasClass(e.target, 'hierarchy-subject')) {
-        e.preventDefault();
-
-        const link = (e.target as HTMLInputElement).getAttribute('href') as string
-        store.dispatch(setDisplaySummary({ displaySummary: true }));
-        router.navigateByUrl(link.replace('/nde/', '/'), {
-          replaceUrl: true
-        })
-      }
-    })
+    document.addEventListener('mouseover', this.mouseOverOverride);
+    document.addEventListener('mouseout', this.mouseOutOverride);
+    document.addEventListener('click', this.clickOverride);
   }
 
-  ngAfterContentInit() {
+  ngAfterViewInit() {
     this.processSubjects();
     this.initBehavior();
+
+    this.observer = new MutationObserver(() => {
+      this.processSubjects();
+    });
+
+    this.observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
   }
 
-
-
   ngOnDestroy() {
-    const customSubjects = document.querySelectorAll('.hierarchy-subject');
-    customSubjects.forEach((e: Element) => {
-      console.log("Removing!")
-      e.removeEventListener('mouseover', this.mouseOverOverride);
-      e.removeEventListener('mouseout', this.mouseOutOverride);
-    })
+    document.removeEventListener('mouseover', this.mouseOverOverride);
+    document.removeEventListener('mouseout', this.mouseOutOverride);
+    document.removeEventListener('click', this.clickOverride);
+
+    this.observer?.disconnect();
   }
 }
