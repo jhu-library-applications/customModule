@@ -1,4 +1,14 @@
-<div *ngIf="!this.isLoggedIn" class="sign-in-custom">
-  <span class="get-it-sign-in" (click)="triggerSignInPopUp()">Sign in</span> to get complete results and to request
-  items
+<div *ngIf="!this.isLoggedIn && !this.dismissed" class="sign-in-custom">
+  <button class="sign-in-custom-button" mat-flat-button (click)="triggerSignInPopUp()" tabindex="0">
+    Sign in
+    <mat-icon>login</mat-icon>
+  </button>
+  to get complete results and to request
+  items.
+
+  <button mat-button (click)="dismiss()" tabindex="0">
+    Dismiss
+    <mat-icon>close</mat-icon>
+  </button>
+
 </div>
