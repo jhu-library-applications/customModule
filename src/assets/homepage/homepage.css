@@ -27,15 +27,16 @@
   flex: 0 0 40%;
 }
 
-.card {
-  background: white;
+
+.content-container .card {
+  background: #f3f3f3;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
 /* CAT-266 Add NDE Homepage Preview Info */
-.preview-card {
+.content-container .preview-card {
   background: #F1C400;
 }
 

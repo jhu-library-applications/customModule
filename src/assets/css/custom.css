@@ -1,32 +1,30 @@
-/* This color is the one that can be changed in the Alma interface */
-
 :root {
   --sys-primary: #002d72;
+  --whiteBG: #e9e9e9;
+  --lightBG: #f3f3f3;
+  --skeleton: #f3f3f3;
+  --sys-background: #f3f3f3;
+  --whiteText: #f3f3f3;
+  --mdc-dialog-container-shape: #f3f3f3;
+  --mat-menu-container-color: var(--lightBG);
+  --mdc-dialog-container-color: var(--whiteBG);
 }
 
+.top-bar {
+  background-color: var(--lightBG) !important;
+}
+
+nde-full-display-side-bar mat-expansion-panel {
+  background-color: var(--lightBG) !important;
+}
+
+mat-tree-node { 
+  background: var(--lightBG);
+}
 /* Fonts */
 
-@font-face {
-    font-family: 'Work Sans';
-    src: url('WorkSans-Regular.woff2') format('woff2'),
-        url('WorkSans-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Work Sans';
-    src: url('WorkSans-Bold.woff2') format('woff2'),
-        url('WorkSans-Bold.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-}
-
-
 * {
-  font-family: 'Work Sans', sans-serif !important;
+  font-family: Tahoma, sans-serif !important;
 }
 
 .material-icons {
@@ -200,12 +198,19 @@ nde-location-item-service-button button:hover {
   flex: 0 0 40%;
 }
 
-.card {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+nde-search-result-item-container {
+  margin-bottom: 1em;
 }
+
+nde-search-result-item-container .card {
+  background-color: var(--lightBG);
+}
+
+nde-search-results .mat-divider-horizontal {
+  margin:0 !important;
+}
+
+
 
 .card-header {
   padding: 1.5rem 1.5rem 0;
@@ -288,3 +293,12 @@ nde-location-item-service-button button:hover {
 .hierarchy-subject { 
   text-decoration: underline;
 }
+
+
+.mat-icon.available-record-indicator-color svg circle {
+  stroke: var(--lightBG)
+}
+
+.quick-filter-btn {
+  background-color: var(--lightBG) !important;
+} 
