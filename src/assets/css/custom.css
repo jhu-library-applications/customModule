@@ -288,3 +288,8 @@ nde-location-item-service-button button:hover {
 .hierarchy-subject { 
   text-decoration: underline;
 }
+
+/* Hide all known images for Prophet Muhammad */
+img[src='https://upload.wikimedia.org/wikipedia/commons/b/bf/Muslim_depiction_of_Muhammad_-_17th_century_Ottoman_copy_from_the_%22Edinburgh_codex%22.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original'] {
+    display:none !important;
+}
