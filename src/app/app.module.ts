@@ -16,11 +16,13 @@ import {
 import { getInterceptorProviders } from './decorators/nde-interceptor.decorator';
 import { getEventProviders } from './decorators/nde-event.decorator';
 import './events/_registry';
+import { NdeSaisEuCustomBackgroundComponent } from './nde-sais-eu-custom-background/nde-sais-eu-custom-background.component';
 export const AppModule = ({providers, shellRouter}: {providers:any, shellRouter: Router}) => {
    @NgModule({
     declarations: [
       AppComponent,
-      AutoAssetSrcDirective
+      AutoAssetSrcDirective,
+      NdeSaisEuCustomBackgroundComponent
     ],
     exports: [AutoAssetSrcDirective],
     imports: [
