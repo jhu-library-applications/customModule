@@ -11,7 +11,7 @@ export class NdeSaisEuCustomBackgroundComponent implements OnInit {
 
   ngOnInit(): void {
     let topBarElement: HTMLElement = document.querySelector('.top-bar-background-image') as HTMLElement;
-    topBarElement.setAttribute('style', 'background-image: url(/custom/01JHU_INST-sais_europe_nde/assets/images/bolognabanner1.jpg);');
+    topBarElement.setAttribute('style', 'background-image: url(/nde/custom/01JHU_INST-sais_europe_nde/assets/images/bolognabanner1.jpg);');
   }
 
 }
