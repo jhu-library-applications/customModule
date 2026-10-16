@@ -308,3 +308,8 @@ img[src='https://upload.wikimedia.org/wikipedia/commons/b/bf/Muslim_depiction_of
     display: none;
   }
 }
+
+/* Hide the ILL link */
+nde-general-electronic-service-link {
+  display: none;
+}
